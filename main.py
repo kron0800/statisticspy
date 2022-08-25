@@ -1,19 +1,10 @@
-from ntpath import join
 import os
 
 
 def menu():
-    option = input("""
-Bienvenido a Statistics in Python (beta)
-
-Como desea ingresar los datos?
-[1] Separado por comas
-[2] Separado por espacios
-
-> """)
     os.system('cls')
-
     variables = input("""
+Bienvenido a Statistics in Python (beta)
 Inserte los datos a continuación:
 
 --> """)
@@ -21,28 +12,44 @@ Inserte los datos a continuación:
     data = []
     temp = []
 
-    if option == '1':
-        for i in variables:
-            if i == ',':
-                data.append(''.join(temp))
-                temp = []
-                continue
-            if i != ' ':
-                temp.append(i)
-            
-    elif option == '2':
-        for i in variables:
-            if i.isnumeric() == False:
-                data.append(''.join(temp))
-                temp = []
-                continue
+    variables = variables.replace(',' , '') + ' '
+    for i in variables:
+        if i in ["0","1","2","3","4","5","6","7","8","9"]:
             temp.append(i)
+        elif i == ' ':
+            data.append(''.join(temp))
+            temp = []
+            continue
+    data.sort()  
+
+    print(f'Original data > {data}')
+    xi = set(data)
+    xi = list(xi)
+    xi.sort()
+    
+    fi = absolute_freq(data)
+
+    print('Xi | fi |')
+    print('---|----|')
+    for i in xi:
+        print(i, '|', fi.get(str(i)))
+    
+
+
+def absolute_freq(data):
+    fi = {'':''}
+    for i in data:
+        if i not in fi:
+            fi.setdefault(i,1)
+        elif i in fi:
+            temp = int(fi.get(i)) + 1
+            temp = {i : temp}
+            fi.update(temp)
+    return fi
+
             
-    
-    
 
-
-    print(data)
+    print(xf)
 
 if __name__ == '__main__':
     menu()
